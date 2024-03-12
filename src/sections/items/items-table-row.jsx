@@ -1,4 +1,3 @@
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
@@ -7,15 +6,26 @@ import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
-import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
+import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import FormDialog from 'src/components/form/editItem';
+import AlertDialog from 'src/components/dialog/deleteItem';
 
 import { fDate } from '../../utils/format-time';
+
+const fSt = (statusCode) => {
+  const statusMap = {
+    1: 'Overdue',
+    2: 'Upcoming',
+    3: 'Distan',
+  };
+
+  return statusMap[statusCode] || 'unknown';
+};
 
 export default function ItemsTableRow({
   id,
@@ -28,6 +38,7 @@ export default function ItemsTableRow({
   dateout,
   user,
   handleClick,
+  status,
 }) {
   const [open, setOpen] = useState(null);
 
@@ -37,18 +48,6 @@ export default function ItemsTableRow({
 
   const handleCloseMenu = () => {
     setOpen(null);
-  };
-
-  const handleDelete = async () => {
-    try {
-      // Make DELETE request to your API endpoint
-      const response = await axios.delete(`http://localhost:5002/barangs/${id}`);
-      console.log('Item deleted successfully:', response.data);
-      window.location.reload();
-    } catch (error) {
-      console.error('Error deleting Item:', error);
-      // Handle error here
-    }
   };
 
   return (
@@ -77,6 +76,18 @@ export default function ItemsTableRow({
 
         <TableCell>{user}</TableCell>
 
+        <TableCell>
+          <Label
+            color={
+              (fSt(status) === 'Upcoming' && 'primary') ||
+              (fSt(status) === 'Distan' && 'success') ||
+              'error'
+            }
+          >
+            {fSt(status)}
+          </Label>
+        </TableCell>
+
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
@@ -96,10 +107,7 @@ export default function ItemsTableRow({
       >
         <FormDialog id={id} />
 
-        <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>
-          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
+        <AlertDialog id={id} />
       </Popover>
     </>
   );
@@ -116,4 +124,5 @@ ItemsTableRow.propTypes = {
   datein: PropTypes.any,
   dateout: PropTypes.any,
   user: PropTypes.any,
+  status: PropTypes.any,
 };

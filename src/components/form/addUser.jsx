@@ -55,6 +55,7 @@ export default function FormDialog() {
         role,
         office,
         division,
+        status: 'active',
       });
 
       // Check if the user was successfully created

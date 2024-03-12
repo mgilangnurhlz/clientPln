@@ -1,4 +1,3 @@
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
@@ -7,7 +6,6 @@ import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
-import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -15,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import FormDialog from 'src/components/form/editUser';
+import AlertDialog from 'src/components/dialog/deleteUser';
 
 export default function UserTableRow({
   id, // Add id prop to get user id
@@ -25,6 +24,7 @@ export default function UserTableRow({
   office,
   avatarUrl,
   division,
+  status,
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
@@ -37,25 +37,12 @@ export default function UserTableRow({
     setOpen(null);
   };
 
-  const handleDelete = async () => {
-    try {
-      // Make DELETE request to your API endpoint
-      const response = await axios.delete(`http://localhost:5002/users/${id}`);
-      console.log('User deleted successfully:', response.data);
-      window.location.reload();
-    } catch (error) {
-      console.error('Error deleting user:', error);
-      // Handle error here
-    }
-  };
-
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
         <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
-
         <TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
             <Avatar alt={name} src={avatarUrl} />
@@ -64,17 +51,19 @@ export default function UserTableRow({
             </Typography>
           </Stack>
         </TableCell>
-
         <TableCell>{email}</TableCell>
-
         <TableCell>{office}</TableCell>
-
         <TableCell>{division}</TableCell>
-
+        <TableCell>{role}</TableCell>
         <TableCell>
-          <Label color={(role === 'admin' && 'primary') || 'success'}>{role}</Label>
+          <Label
+            color={
+              (status === 'pending' && 'primary') || (status === 'active' && 'success') || 'error'
+            }
+          >
+            {status}
+          </Label>
         </TableCell>
-
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
@@ -94,10 +83,7 @@ export default function UserTableRow({
       >
         <FormDialog id={id} />
 
-        <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>
-          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
+        <AlertDialog id={id} />
       </Popover>
     </>
   );
@@ -111,6 +97,7 @@ UserTableRow.propTypes = {
   division: PropTypes.any,
   office: PropTypes.any,
   role: PropTypes.any,
+  status: PropTypes.any,
   avatarUrl: PropTypes.any,
   selected: PropTypes.any,
 };

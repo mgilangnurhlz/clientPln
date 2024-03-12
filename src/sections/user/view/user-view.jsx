@@ -47,6 +47,7 @@ const UserPage = () => {
     role: user.role,
     office: user.office,
     division: user.division,
+    status: user.status,
   }));
 
   const handleSort = (event, id) => {
@@ -156,6 +157,7 @@ const UserPage = () => {
                   { id: 'office', label: 'Office' },
                   { id: 'division', label: 'Division' },
                   { id: 'role', label: 'Role' },
+                  { id: 'status', label: 'Status' },
                   { id: '' },
                 ]}
               />
@@ -172,6 +174,7 @@ const UserPage = () => {
                       avatarUrl={row.avatarUrl}
                       division={row.division}
                       email={row.email}
+                      status={row.status}
                       selected={selected.indexOf(row.id) !== -1}
                       handleClick={(event) => handleClick(event, row.id)}
                     />

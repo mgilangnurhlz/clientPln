@@ -33,7 +33,7 @@ export default function AppView() {
 
   const getUpcomingDates = () =>
     barangData
-      .filter((barang) => new Date(barang.dateout) > new Date())
+      .filter((barang) => new Date(barang.dateout) >= new Date())
       .sort((a, b) => new Date(a.dateout) - new Date(b.dateout))
       .slice(0, 5);
   const upcomingBarang = getUpcomingDates();
@@ -171,33 +171,6 @@ export default function AppView() {
 
   const passedDateoutItems = getPassedDateoutItems();
 
-  const [totalUsers, setTotalUsers] = useState(0);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:5002/users');
-        const userData = response.data;
-        let total = 0;
-        if (user && user.role === 'admin') {
-          total = userData.length;
-        } else {
-          total = 1;
-        }
-        setTotalUsers(total);
-      } catch (error) {
-        if (error.response && error.response.status === 403) {
-          console.error('Forbidden: You do not have access to this resource.');
-          setTotalUsers(1);
-        } else {
-          console.error('Error fetching user data:', error.message);
-        }
-      }
-    };
-
-    fetchData();
-  }, [user]);
-
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
@@ -205,7 +178,7 @@ export default function AppView() {
       </Typography>
 
       <Grid container spacing={3}>
-        <Grid xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Total Items"
             total={totalBarang}
@@ -214,16 +187,7 @@ export default function AppView() {
           />
         </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="Total User"
-            total={totalUsers}
-            color="info"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
-          />
-        </Grid>
-
-        <Grid xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Caution items"
             total={oneMonthAheadItems}
@@ -232,7 +196,7 @@ export default function AppView() {
           />
         </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Overdue items"
             total={passedDateoutItems}

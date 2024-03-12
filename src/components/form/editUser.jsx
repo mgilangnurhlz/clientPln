@@ -28,6 +28,7 @@ export default function FormDialog({ id }) {
   const [role, setRole] = useState('');
   const [office, setOffice] = useState('');
   const [division, setDivision] = useState('');
+  const [status, setStatus] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [userData, setUserData] = useState({
     name: '',
@@ -37,6 +38,7 @@ export default function FormDialog({ id }) {
     role: '',
     office: '',
     division: '',
+    status: '',
   });
 
   useEffect(() => {
@@ -59,6 +61,7 @@ export default function FormDialog({ id }) {
     setRole(userData.role);
     setOffice(userData.office);
     setDivision(userData.division);
+    setStatus(userData.status);
   }, [userData]);
 
   const handleClickOpen = () => {
@@ -73,6 +76,7 @@ export default function FormDialog({ id }) {
     setConfPassword('');
     setRole('');
     setOffice('');
+    setStatus('');
     setDivision('');
     setErrorMessage('');
   };
@@ -88,6 +92,7 @@ export default function FormDialog({ id }) {
         role,
         office,
         division,
+        status,
       });
 
       // Check if the user was successfully created
@@ -201,7 +206,7 @@ export default function FormDialog({ id }) {
               fullWidth
               variant="standard"
               name="password"
-              label="Password"
+              label="New Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type={showPassword ? 'text' : 'password'}
@@ -238,6 +243,20 @@ export default function FormDialog({ id }) {
                 ),
               }}
             />
+            <FormControl sx={{ mt: 2 }} variant="standard" fullWidth autoFocus required>
+              <InputLabel id="status">Status</InputLabel>
+              <Select
+                labelId="status"
+                id="status"
+                label="Status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <MenuItem value="active">Active</MenuItem>
+                <MenuItem value="banned">Banned</MenuItem>
+                <MenuItem value="pending">Pending</MenuItem>
+              </Select>
+            </FormControl>
           </form>
         </DialogContent>
         <DialogActions>

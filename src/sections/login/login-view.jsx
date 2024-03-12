@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Add useEffect import
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -78,7 +79,7 @@ export default function LoginView() {
       </Typography>
 
       <LoadingButton fullWidth size="large" type="submit" variant="contained" color="inherit">
-        Login
+        Log In
       </LoadingButton>
     </form>
   );
@@ -110,11 +111,14 @@ export default function LoginView() {
           }}
         >
           <Typography variant="h4">Sign in to ElectraCare</Typography>
-          <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
-            {' '}
+          <Typography variant="body2" sx={{ mt: 2, mb: 4 }}>
+            Don’t have an account?
+            <Link href="/signup" variant="subtitle2" sx={{ ml: 0.5 }}>
+              Sign Up
+            </Link>
           </Typography>
           {isError && ( // Menampilkan pesan kesalahan dari server
-            <Typography variant="body2" sx={{ mt: 2, mb: 2, color: 'red' }}>
+            <Typography variant="body2" sx={{ mb: 2, color: 'red' }}>
               {message}
             </Typography>
           )}

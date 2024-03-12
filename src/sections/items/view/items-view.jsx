@@ -21,6 +21,23 @@ import ItemsTableToolbar from '../items-table-toolbar'; // Pastikan Anda mengimp
 
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
+const getStatus = (dateout) => {
+  const today = new Date();
+  const oneMonthAfter = new Date();
+  oneMonthAfter.setMonth(oneMonthAfter.getMonth() + 1);
+
+  const dateOutDate = new Date(dateout);
+
+  if (dateOutDate <= today) {
+    return '1';
+  }
+  if (dateOutDate > today && dateOutDate < oneMonthAfter) {
+    return '2';
+  }
+
+  return '3';
+};
+
 const ItemsPage = () => {
   const [barang, setBarang] = useState([]);
   const [page, setPage] = useState(0);
@@ -48,6 +65,7 @@ const ItemsPage = () => {
     datein: item.datein,
     dateout: item.dateout,
     user: item.user.name,
+    status: getStatus(item.dateout),
   }));
 
   const handleSort = (event, id) => {
@@ -157,6 +175,7 @@ const ItemsPage = () => {
                   { id: 'datein', label: 'Installation Date' },
                   { id: 'dateout', label: 'Maintenance Date' },
                   { id: 'user', label: 'Person Responsible' },
+                  { id: 'status', label: 'Status' },
                   { id: '' },
                 ]}
               />
@@ -173,6 +192,7 @@ const ItemsPage = () => {
                       datein={row.datein}
                       dateout={row.dateout}
                       user={row.user}
+                      status={row.status}
                       avatarUrl={row.avatarUrl}
                       selected={selected.indexOf(row.id) !== -1}
                       handleClick={(event) => handleClick(event, row.id)}
