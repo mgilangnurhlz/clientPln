@@ -70,15 +70,6 @@ export default function FormDialog({ id }) {
 
   const handleClose = () => {
     setOpen(false);
-    setName('');
-    setEmail('');
-    setPassword('');
-    setConfPassword('');
-    setRole('');
-    setOffice('');
-    setStatus('');
-    setDivision('');
-    setErrorMessage('');
   };
 
   const handleSubmit = async (event) => {
@@ -252,9 +243,11 @@ export default function FormDialog({ id }) {
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
+                <MenuItem disabled value="pending">
+                  Pending
+                </MenuItem>
                 <MenuItem value="active">Active</MenuItem>
                 <MenuItem value="banned">Banned</MenuItem>
-                <MenuItem value="pending">Pending</MenuItem>
               </Select>
             </FormControl>
           </form>
