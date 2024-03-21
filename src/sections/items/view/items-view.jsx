@@ -12,6 +12,7 @@ import TablePagination from '@mui/material/TablePagination';
 
 import Scrollbar from 'src/components/scrollbar';
 import FormDialog from 'src/components/form/addItem';
+import ExportItem from 'src/components/form/exportItem';
 
 import TableNoData from '../table-no-data';
 import ItemsTableRow from '../items-table-row';
@@ -147,7 +148,10 @@ const ItemsPage = () => {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Items</Typography>
-        <FormDialog />
+        <Stack direction="row" spacing={1} mb={5}>
+          <ExportItem />
+          <FormDialog />
+        </Stack>
       </Stack>
 
       <Card>

@@ -126,7 +126,7 @@ export default function FormDialog({ id }) {
         Edit
       </MenuItem>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add Item</DialogTitle>
+        <DialogTitle>Edit Item</DialogTitle>
         <DialogContent>
           {errorMessage && (
             <DialogContentText style={{ color: 'red' }}>{errorMessage}</DialogContentText>
